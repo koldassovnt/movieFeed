@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="list_poster_height">400dp</dimen>
+    <dimen name="movie_title_size">32dp</dimen>
+    <dimen name="movie_release_date_size">28dp</dimen>
+    <dimen name="movie_rating_size">28dp</dimen>
+    <dimen name="movie_detail_title_size">28sp</dimen>
+    <dimen name="movie_detail_template_size">20sp</dimen>
+    <dimen name="movie_detail_overview_size">16sp</dimen>
+</resources>
