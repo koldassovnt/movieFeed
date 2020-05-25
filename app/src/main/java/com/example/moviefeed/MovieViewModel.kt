@@ -40,6 +40,10 @@ class MovieViewModel(application: Application) : AndroidViewModel(application)  
         compositeDisposable.add(disposable)
     }
 
+    fun clearData() {
+        compositeDisposable.clear()
+    }
+
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.dispose()
