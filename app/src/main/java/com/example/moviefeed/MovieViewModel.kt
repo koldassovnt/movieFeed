@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.example.moviefeed.api.ApiFactory
+import com.example.moviefeed.api.ApiService
 import com.example.moviefeed.database.AppDatabase
 import com.example.moviefeed.pojo.Movie
 import io.reactivex.disposables.CompositeDisposable
@@ -23,7 +24,7 @@ class MovieViewModel(application: Application) : AndroidViewModel(application)  
     val movieList = db.movieDao().getMovies()
 
     fun loadData() {
-        val disposable = ApiFactory.apiService.getNowPlayingMovies(page = 1)
+        val disposable = ApiFactory.apiService.getNowPlayingMovies()
             .map { it.results }
             .delaySubscription(20, TimeUnit.SECONDS)
             .repeat()

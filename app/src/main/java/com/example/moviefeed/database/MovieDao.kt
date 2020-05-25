@@ -10,7 +10,7 @@ import com.example.moviefeed.pojo.Movie
 @Dao
 interface MovieDao {
 
-    @Query("SELECT * FROM now_playing_movies ORDER BY releaseDate DESC")
+    @Query("SELECT * FROM now_playing_movies ORDER BY voteAverage DESC")
     fun getMovies() : LiveData<List<Movie>>
 
     @Query("SELECT * FROM now_playing_movies WHERE originalTitle == :movieName LIMIT 1")

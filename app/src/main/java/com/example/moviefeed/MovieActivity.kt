@@ -3,19 +3,20 @@ package com.example.moviefeed
 import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.example.moviefeed.adapter.MovieAdapter
+import com.example.moviefeed.api.ApiFactory
 import com.example.moviefeed.pojo.Movie
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_movie.*
 
+
 @Suppress("DEPRECATION")
-class MovieActivity() : AppCompatActivity() {
+class MovieActivity() : AppCompatActivity(){
 
     private val compositeDisposable = CompositeDisposable()
-    private lateinit var viewModel : MovieViewModel
+    private lateinit var viewModel: MovieViewModel
     private lateinit var handler: Handler
     private lateinit var runnable: Runnable
 
@@ -30,12 +31,16 @@ class MovieActivity() : AppCompatActivity() {
 
         adapter.onMovieClickListener = object : MovieAdapter.OnMovieClickListener {
             override fun onMovieClick(movie: Movie) {
-                val intent = MovieDetailActivity.newIntent(this@MovieActivity, movie.originalTitle.toString())
+                val intent = MovieDetailActivity.newIntent(
+                    this@MovieActivity,
+                    movie.originalTitle.toString()
+                )
                 startActivity(intent)
             }
         }
 
         viewModel = ViewModelProviders.of(this)[MovieViewModel::class.java]
+        viewModel.loadData()
         viewModel.movieList.observe(this, Observer {
             adapter.movieList = it
         })
@@ -43,6 +48,8 @@ class MovieActivity() : AppCompatActivity() {
         swipeRefreshLayout.setOnRefreshListener {
             // Initialize a new Runnable
             runnable = Runnable {
+                ApiFactory.PAGE++
+                viewModel.loadData()
                 viewModel.movieList.observe(this, Observer {
                     adapter.movieList = it
                 })
@@ -63,5 +70,4 @@ class MovieActivity() : AppCompatActivity() {
         )
 
     }
-
 }
