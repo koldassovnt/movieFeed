@@ -9,9 +9,9 @@ enum class Status {
 class NetworkState(val status: Status, val msg: String) {
 
     companion object {
-        private val LOADED: NetworkState
-        private val LOADING: NetworkState
-        private val ERROR: NetworkState
+        val LOADED: NetworkState
+        val LOADING: NetworkState
+        val ERROR: NetworkState
 
         init {
             LOADED = NetworkState(Status.SUCCESS, "Success")

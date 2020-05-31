@@ -1,17 +1,50 @@
 package com.example.moviefeed.data.api
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
-import com.example.moviefeed.data.pojo.MovieDetailRemote
-import io.reactivex.Single
-import retrofit2.http.GET
-import retrofit2.http.Path
+const val API_KEY = "c844f3ac71e8a0a4754ba1aceae52800"
+const val BASE_URL = "https://api.themoviedb.org/3/"
+const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
 
-interface ApiFactory {
+// https://api.themoviedb.org/3/movie/popular?api_key=c844f3ac71e8a0a4754ba1aceae52800&page=1
+// https://api.themoviedb.org/3/movie/299534?api_key=c844f3ac71e8a0a4754ba1aceae52800
+// https://image.tmdb.org/t/p/w342/or06FN3Dka5tukK1e9sl16pB3iy.jpg
 
-    // https://api.themoviedb.org/3/movie/popular?api_key=c844f3ac71e8a0a4754ba1aceae52800&page=1
-    // https://api.themoviedb.org/3/movie/299534?api_key=c844f3ac71e8a0a4754ba1aceae52800
-    // https://api.themoviedb.org/3/
+object ApiFactory {
+    fun getClient(): ApiService {
 
+        val requestInterceptor = Interceptor { chain ->
 
-    @GET("movie/{movie_id}")
-    fun getMovieDetails(@Path("movie_id") id: Int): Single<MovieDetailRemote>
+            val url = chain.request()
+                .url()
+                .newBuilder()
+                .addQueryParameter("api_key", API_KEY)
+                .build()
+
+            val request = chain.request()
+                .newBuilder()
+                .url(url)
+                .build()
+
+            return@Interceptor chain.proceed(request)
+        }
+
+        val okHttpClient = OkHttpClient.Builder()
+            .addInterceptor(requestInterceptor)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .build()
+
+        return Retrofit.Builder()
+            .client(okHttpClient)
+            .baseUrl(BASE_URL)
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ApiService::class.java)
+
+    }
 }

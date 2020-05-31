@@ -3,7 +3,7 @@ package com.example.moviefeed.data.pojo
 
 import com.google.gson.annotations.SerializedName
 
-data class MovieDetailRemote(
+data class MovieDetails(
     val budget: Int,
     val id: Int,
     @SerializedName("original_title")
