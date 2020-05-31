@@ -3,8 +3,8 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
-    <color name="movie_title_color">#FFFFFF</color>
-    <color name="movie_release_date_color">#FFFFFF</color>
+    <color name="movie_title_color">#000</color>
+    <color name="movie_release_date_color">#000</color>
     <color name="movie_rating_color">#FFFFFF</color>
     <color name="movie_rating_background_color">#019A20</color>
     <color name="recycler_view_background_color">#FFFFFF</color>

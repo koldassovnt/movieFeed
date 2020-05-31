@@ -8,7 +8,7 @@ import com.example.moviefeed.data.pojo.MovieDetails
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class MovieDetailsNetworkDataSource(
+class MovieNetworkDataSource(
     private val apiService: ApiService,
     private val compositeDisposable: CompositeDisposable
 ) {

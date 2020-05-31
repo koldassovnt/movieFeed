@@ -10,9 +10,8 @@ const val API_KEY = "c844f3ac71e8a0a4754ba1aceae52800"
 const val BASE_URL = "https://api.themoviedb.org/3/"
 const val POSTER_BASE_URL = "https://image.tmdb.org/t/p/w342"
 
-// https://api.themoviedb.org/3/movie/popular?api_key=c844f3ac71e8a0a4754ba1aceae52800&page=1
-// https://api.themoviedb.org/3/movie/299534?api_key=c844f3ac71e8a0a4754ba1aceae52800
-// https://image.tmdb.org/t/p/w342/or06FN3Dka5tukK1e9sl16pB3iy.jpg
+const val FIRST_PAGE = 1
+const val POST_PER_PAGE = 20
 
 object ApiFactory {
     fun getClient(): ApiService {
@@ -30,7 +29,7 @@ object ApiFactory {
                 .url(url)
                 .build()
 
-            return@Interceptor chain.proceed(request)
+            return@Interceptor chain.proceed(request)   //explicitly return a value from whit @ annotation. lambda always returns the value of the last expression implicitly
         }
 
         val okHttpClient = OkHttpClient.Builder()

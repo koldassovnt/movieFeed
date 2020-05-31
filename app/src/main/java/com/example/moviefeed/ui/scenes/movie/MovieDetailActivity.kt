@@ -15,8 +15,6 @@ import com.example.moviefeed.data.api.POSTER_BASE_URL
 import com.example.moviefeed.data.pojo.MovieDetails
 import com.example.moviefeed.data.repository.NetworkState
 import kotlinx.android.synthetic.main.activity_movie_detail.*
-import java.text.NumberFormat
-import java.util.*
 
 @Suppress("DEPRECATION")
 class MovieDetailActivity() : AppCompatActivity() {

@@ -1,36 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardUseCompatPadding="true">
 
-    <ImageView
-        android:id="@+id/ivMoviePoster"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height= "wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/ic_launcher_background"
-        />
-    <TextView
-        android:id="@+id/tvMovieRating"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/movie_rating_background"
-        android:padding="12dp"
-        android:text="6.5"
-        android:textColor="@color/movie_rating_color"
-        android:textSize="@dimen/movie_rating_size"
+        android:orientation="vertical">
 
-        />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/cv_iv_movie_poster"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/poster_placeholder"/>
+
+            <TextView
+                android:id="@+id/tvMovieRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/movie_rating_background"
+                android:padding="12dp"
+                android:text="6.5"
+                android:layout_marginVertical="16dp"
+                android:textColor="@color/movie_rating_color"
+                android:textSize="@dimen/movie_rating_size" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/cv_movie_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="movie"
+            android:textSize="20sp"
+            android:textColor="@color/movie_title_color"
+            android:fontFamily="sans-serif-medium"/>
+
+        <TextView
+            android:id="@+id/cv_movie_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginBottom="4dp"
+            android:maxLength="4"
+            android:text="2019"
+            android:textSize="18sp"
+            android:textColor="@color/movie_release_date_color"
+            android:fontFamily="sans-serif-medium"/>
+
+    </LinearLayout>
 
 
 </androidx.cardview.widget.CardView>
