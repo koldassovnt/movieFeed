@@ -23,8 +23,7 @@
         android:label="fragment_detail"
         tools:layout="@layout/detail_fragment">
 
-        <argument
-            android:name="selectedProperty"
+        <argument android:name="selectedProperty"
 
             />
 

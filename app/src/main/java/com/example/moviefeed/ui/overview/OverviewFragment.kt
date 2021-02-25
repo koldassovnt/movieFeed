@@ -1,32 +1,36 @@
 package com.example.moviefeed.ui.overview
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviefeed.R
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.overview_fragment.*
+import timber.log.Timber
 
-class OverviewFragment : Fragment() {
+@AndroidEntryPoint
+class OverviewFragment : Fragment(R.layout.overview_fragment) {
 
-    companion object {
-        fun newInstance() = OverviewFragment()
-    }
-
-    private lateinit var viewModel: OverviewViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.overview_fragment, container, false)
-    }
+    private lateinit var movieAdapter: MovieAdapter
+    private val overviewViewModel by viewModels<OverviewViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(OverviewViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        overviewViewModel.trendingMovies.observe(viewLifecycleOwner, Observer {
+            movieAdapter.setMovies(it)
+        })
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        movieAdapter = MovieAdapter()
+
+        rv_movies.layoutManager = LinearLayoutManager(requireContext())
+        rv_movies.adapter = movieAdapter
+    }
 }

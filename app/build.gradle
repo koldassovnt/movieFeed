@@ -42,7 +42,7 @@ dependencies {
 
     // Support libraries
     implementation "androidx.appcompat:appcompat:$version_appcompat"
-    implementation "androidx.fragment:fragment:$version_fragment"
+    implementation "androidx.fragment:fragment-ktx:$version_fragment"
     implementation "androidx.constraintlayout:constraintlayout:$version_constraint_layout"
 
     // Android KTX
@@ -64,6 +64,7 @@ dependencies {
 
     //Okhttp3
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 
     // Moshi for parsing the JSON format
     implementation "com.squareup.moshi:moshi:$version_moshi"
@@ -75,12 +76,20 @@ dependencies {
     // ViewModel and LiveData (arch components)
     implementation "androidx.lifecycle:lifecycle-extensions:$version_lifecycle_extensions"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    kapt "android.arch.lifecycle:compiler:1.1.1"
+
+    // Activity
+    implementation 'androidx.activity:activity-ktx:1.2.0'
 
     // Logging
     implementation "com.jakewharton.timber:timber:$version_timber"
 
     // Glide for images
     implementation "com.github.bumptech.glide:glide:$version_glide"
+    implementation "com.github.bumptech.glide:okhttp3-integration:4.7.1"
+    annotationProcessor "com.github.bumptech.glide:compiler:$version_glide"
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
 
     // Room database
     implementation "androidx.room:room-runtime:$version_room"
@@ -95,7 +104,8 @@ dependencies {
     implementation "android.arch.work:work-runtime-ktx:$version_work"
 
     //RxJava
-    implementation "io.reactivex.rxjava3:rxjava:3.x.y"
+    implementation "io.reactivex.rxjava3:rxjava:3.0.4"
+    implementation "io.reactivex.rxjava3:rxandroid:3.0.0"
 
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
@@ -104,8 +114,13 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hilt_android_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_android_version"
 
-    //// When using Kotlin.
-    kapt 'androidx.hilt:hilt-compiler:1.0.0-alpha03'
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_jetpack"
+    implementation "androidx.hilt:hilt-work:$hilt_jetpack"
+    implementation "androidx.hilt:hilt-common:$hilt_jetpack"
+    // When using Kotlin.
+    kapt "androidx.hilt:hilt-compiler:$hilt_jetpack"
+
+
 
 
 }

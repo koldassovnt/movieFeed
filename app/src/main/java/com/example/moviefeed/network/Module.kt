@@ -1,10 +1,11 @@
 package com.example.moviefeed.network
 
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Call
 import okhttp3.OkHttp
 import okhttp3.OkHttpClient
@@ -15,7 +16,7 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object Module {
 
     @Singleton
@@ -40,11 +41,15 @@ object Module {
         return Moshi.Builder().build()
     }
 
-    @Singleton
-    @Provides
-    fun provideMoshiConvertorFactory(): MoshiConverterFactory {
-        return MoshiConverterFactory.create()
-    }
+//    @Singleton
+//    @Provides
+//    fun provideMoshiConvertorFactory(): MoshiConverterFactory {
+//        return MoshiConverterFactory.create()
+//    }
+
+    private val moshi = Moshi.Builder()
+        .add(KotlinJsonAdapterFactory())
+        .build()
 
     @Singleton
     @Provides
@@ -62,15 +67,14 @@ object Module {
     @Provides
     fun provideRetrofit(
         httpLoggingInterceptor: Call.Factory,
-        moshiConverterFactory: MoshiConverterFactory,
         rxJava3CallAdapterFactory: RxJava3CallAdapterFactory,
         baseUrl: String
     ): Retrofit {
         return Retrofit.Builder()
-            .callFactory(httpLoggingInterceptor)
-            .addConverterFactory(moshiConverterFactory)
-            .addCallAdapterFactory(rxJava3CallAdapterFactory)
             .baseUrl(baseUrl)
+            .callFactory(httpLoggingInterceptor)
+            .addConverterFactory(MoshiConverterFactory.create(moshi))
+            .addCallAdapterFactory(rxJava3CallAdapterFactory)
             .build()
     }
 

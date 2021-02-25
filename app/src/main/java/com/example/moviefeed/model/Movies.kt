@@ -15,22 +15,24 @@ data class Movies(
 
 @JsonClass(generateAdapter = true)
 data class Movie(
-    val id: Long,
-    val video: Boolean,
+    val id: Long?,
+    val video: Boolean?,
+    @Json(name = "vote_count")
+    val voteCount: Long?,
     @Json(name = "vote_average")
-    val voteAverage: Double,
-    val title: String,
+    val voteAverage: Double?,
+    val title: String?,
     @Json(name = "release_date")
-    val releaseDate: String,
+    val releaseDate: String?,
     @Json(name = "original_language")
-    val originalLanguage: String,
+    val originalLanguage: String?,
     @Json(name= "backdrop_path")
-    val backdropPath: String,
-    val adult: Boolean,
-    val overview: String,
+    val backdropPath: String?,
+    val adult: Boolean?,
+    val overview: String?,
     @Json(name = "poster_path")
-    val posterPath: String,
-    val popularity: Double,
+    val posterPath: String?,
+    val popularity: Double?,
     @Json(name = "media_type")
-    val mediaType: String
+    val mediaType: String?
 )
