@@ -1,4 +1,4 @@
-package com.example.moviefeed.detail
+package com.example.moviefeed.ui.detail
 
 import androidx.lifecycle.ViewModel
 

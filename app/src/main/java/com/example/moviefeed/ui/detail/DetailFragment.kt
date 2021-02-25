@@ -1,4 +1,4 @@
-package com.example.moviefeed.overview
+package com.example.moviefeed.ui.detail
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -8,24 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.moviefeed.R
 
-class OverviewFragment : Fragment() {
+class DetailFragment : Fragment() {
 
     companion object {
-        fun newInstance() = OverviewFragment()
+        fun newInstance() = DetailFragment()
     }
 
-    private lateinit var viewModel: OverviewViewModel
+    private lateinit var viewModel: DetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.overview_fragment, container, false)
+        return inflater.inflate(R.layout.detail_fragment, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(OverviewViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(DetailViewModel::class.java)
         // TODO: Use the ViewModel
     }
 
