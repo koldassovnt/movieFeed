@@ -7,7 +7,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviefeed.R
+import com.example.moviefeed.model.Status
+import com.example.moviefeed.model.Status.*
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.loading_layout.*
 import kotlinx.android.synthetic.main.overview_fragment.*
 import timber.log.Timber
 
@@ -21,7 +25,20 @@ class OverviewFragment : Fragment(R.layout.overview_fragment) {
         super.onActivityCreated(savedInstanceState)
 
         overviewViewModel.trendingMovies.observe(viewLifecycleOwner, Observer {
-            movieAdapter.setMovies(it)
+            when (it.status) {
+                SUCCESS -> {
+                    showLoading(false)
+                    movieAdapter.setMovies(it.data!!)
+                }
+                LOADING -> {
+                    showLoading(true)
+                }
+                ERROR -> {
+                    showLoading(false)
+                    Snackbar.make(requireView(), it.message!!, Snackbar.LENGTH_SHORT).show()
+                }
+            }
+
         })
     }
 
@@ -32,5 +49,13 @@ class OverviewFragment : Fragment(R.layout.overview_fragment) {
 
         rv_movies.layoutManager = LinearLayoutManager(requireContext())
         rv_movies.adapter = movieAdapter
+    }
+
+    private fun showLoading(toShow: Boolean) {
+        if (toShow) {
+            loading_container.visibility = View.VISIBLE
+        } else {
+            loading_container.visibility = View.GONE
+        }
     }
 }
