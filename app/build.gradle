@@ -15,6 +15,9 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "TMDB_API_KEY", "\"" + getTmdbApiKey() + "\"")
+        buildConfigField("String", "TMDB_BASE_URL", "\"https://api.themoviedb.org/3/\"")
     }
 
     compileOptions {
@@ -119,8 +122,8 @@ dependencies {
     implementation "androidx.hilt:hilt-common:$hilt_jetpack"
     // When using Kotlin.
     kapt "androidx.hilt:hilt-compiler:$hilt_jetpack"
+}
 
-
-
-
+def getTmdbApiKey() {
+    return project.findProperty("tmdb_api")
 }

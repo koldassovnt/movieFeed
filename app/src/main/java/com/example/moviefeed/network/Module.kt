@@ -1,5 +1,6 @@
 package com.example.moviefeed.network
 
+import com.example.moviefeed.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -7,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Call
+import okhttp3.Interceptor
 import okhttp3.OkHttp
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,6 +16,7 @@ import retrofit2.Retrofit
 import javax.inject.Singleton
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -29,9 +32,32 @@ object Module {
 
     @Singleton
     @Provides
-    fun provideCallFactory(httpLoggingInterceptor: HttpLoggingInterceptor): Call.Factory {
+    fun provideTmbdApiKeyInterceptor(@Named("tmbd_api_key") apikey: String): Interceptor {
+        return Interceptor.invoke { chain ->
+            val originRequest = chain.request()
+            val originUrl = originRequest.url
+
+            val newUrl = originUrl.newBuilder()
+                .addQueryParameter("api_key", apikey)
+                .build()
+
+            val newRequest = originRequest.newBuilder()
+                .url(newUrl)
+                .build()
+
+            chain.proceed(newRequest)
+        }
+    }
+
+    @Singleton
+    @Provides
+    fun provideCallFactory(
+        httpLoggingInterceptor: HttpLoggingInterceptor,
+        tmbdApiKeyInterceptor: Interceptor
+    ): Call.Factory {
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(tmbdApiKeyInterceptor)
             .build()
     }
 
@@ -41,11 +67,6 @@ object Module {
         return Moshi.Builder().build()
     }
 
-//    @Singleton
-//    @Provides
-//    fun provideMoshiConvertorFactory(): MoshiConverterFactory {
-//        return MoshiConverterFactory.create()
-//    }
 
     private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
@@ -59,8 +80,16 @@ object Module {
 
     @Singleton
     @Provides
+    @Named("tmbd_base_url")
     fun provideBaseUrl(): String {
-        return "https://api.themoviedb.org/3/"
+        return BuildConfig.TMDB_BASE_URL
+    }
+
+    @Singleton
+    @Provides
+    @Named("tmbd_api_key")
+    fun provideTmbdApiKey(): String {
+        return BuildConfig.TMDB_API_KEY
     }
 
     @Singleton
@@ -68,7 +97,7 @@ object Module {
     fun provideRetrofit(
         httpLoggingInterceptor: Call.Factory,
         rxJava3CallAdapterFactory: RxJava3CallAdapterFactory,
-        baseUrl: String
+        @Named("tmbd_base_url") baseUrl: String
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
